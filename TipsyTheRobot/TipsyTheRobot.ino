@@ -32,12 +32,12 @@ void loop() {
 
 	Serial.print("tick");
 
-	tipsy->DriveForward();
+	tipsy->WideRight(1000);
 	tipsy->UeeeRight();
   
 	Serial.print("tock");
 
-	tipsy->DriveForward();
+	tipsy->WideLeft(1000);
 	tipsy->UeeeLeft();
 
 	Serial.print("tech");

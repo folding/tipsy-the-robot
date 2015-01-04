@@ -11,8 +11,10 @@ public:
 	void TurnLeft90();
 	void UeeeRight();
 	void UeeeLeft();
-	void DriveForward();
-	void DriveBackward();
+	void DriveForward(int driveTime);
+	void DriveBackward(int driveTime);
+	void WideRight(int driveTime);
+	void WideLeft(int driveTime);
 	void Wait();
 	~Car();
 };
