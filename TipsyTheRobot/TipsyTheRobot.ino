@@ -3,6 +3,17 @@
 #include "utility/Adafruit_PWMServoDriver.h"
 #include "Car.h"
 
+enum InputAction
+{
+	Forward,
+	Reverse,
+	WideLeft,
+	WideRight,
+	UeeeLeft,
+	UeeeRight,
+	Stop
+};
+
 // Create the motor shield object with the default I2C address
 Adafruit_MotorShield AFMS = Adafruit_MotorShield(); 
 // Or, create it with a different I2C address (say for stacking)
@@ -24,23 +35,69 @@ void setup() {
   
   tipsy->Start();
 
+  pinMode(13, OUTPUT);
+
+  delay(2000);
 }
 
+uint8_t inputs[6] = { Forward, Reverse, Forward, WideLeft, Forward,WideRight };
+uint8_t commandNumber = 0;
+uint16_t loopTimer = 0;
 void loop() {
 
-	delay(2000);
+	if (!tipsy->Accelerating())
+	{
+		//hard code the inputs for now...
+		commandNumber++;
+		if (commandNumber > 5)
+		{
+			commandNumber = 0;
+		}
 
-	Serial.print("tick");
+		//collect inputs
+		InputAction a = (InputAction)inputs[commandNumber];
 
-	tipsy->WideRight(1000);
-	tipsy->UeeeRight();
-  
-	Serial.print("tock");
+		//blink our led so we know what's going on
+		if (commandNumber % 2 == 0)
+		{
+			digitalWrite(13, HIGH);
+		}
+		else
+		{
+			digitalWrite(13, LOW);
+		}
 
-	tipsy->WideLeft(1000);
-	tipsy->UeeeLeft();
+		//tell car what to do based on inputs
+		switch (a)
+		{
+		case Forward:
+			tipsy->DriveForward();
+			break;
+		case Reverse:
+			tipsy->DriveBackward();
+			break;
+		case WideLeft:
+			tipsy->WideLeft();
+			break;
+		case WideRight:
+			tipsy->WideRight();
+			break;
+		case UeeeLeft:
+			tipsy->UeeeLeft();
+			break;
+		case UeeeRight:
+			tipsy->UeeeRight();
+			break;
+		case Stop:
+			tipsy->Stop();
+			break;
+		default:
+			break;
+		}
+	}
 
-	Serial.print("tech");
+	//tell car to run
+	tipsy->Run();
 
 	tipsy->Wait();
 

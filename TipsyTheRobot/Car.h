@@ -7,15 +7,16 @@ class Car
 public:
 	Car(Adafruit_DCMotor *left, Adafruit_DCMotor *right);
 	void Start();
-	void TurnRight90();
-	void TurnLeft90();
+	void DriveForward();
+	void DriveBackward();
+	void WideRight();
+	void WideLeft();
 	void UeeeRight();
 	void UeeeLeft();
-	void DriveForward(int driveTime);
-	void DriveBackward(int driveTime);
-	void WideRight(int driveTime);
-	void WideLeft(int driveTime);
+	void Stop();
+	void Run();
 	void Wait();
+	bool Accelerating();
 	~Car();
 };
 
