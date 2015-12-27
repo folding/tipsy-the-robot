@@ -2,7 +2,7 @@
 #include <Adafruit_MotorShield.h>
 #include "utility/Adafruit_PWMServoDriver.h"
 #include "Car.h"
-
+#define CONTROL_ARRAY_SIZE 7
 enum InputAction
 {
 	Forward,
@@ -40,8 +40,8 @@ void setup() {
   delay(2000);
 }
 
-uint8_t inputs[6] = { Forward, Reverse, Forward, WideLeft, Forward,WideRight };
-uint8_t commandNumber = 0;
+uint8_t inputs[CONTROL_ARRAY_SIZE] = { Forward, Reverse, Forward, WideLeft, Forward, UeeeRight, WideRight };
+uint8_t commandNumber = -1;
 uint16_t loopTimer = 0;
 void loop() {
 
@@ -49,7 +49,7 @@ void loop() {
 	{
 		//hard code the inputs for now...
 		commandNumber++;
-		if (commandNumber > 5)
+		if (commandNumber > CONTROL_ARRAY_SIZE-1)
 		{
 			commandNumber = 0;
 		}
